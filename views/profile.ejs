@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Inventory Management</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    body {
+      background: linear-gradient(135deg, #f1f5f9 0%, #e2e8f0 100%);
+    }
+    .glass {
+      background: rgba(255, 255, 255, 0.7);
+      backdrop-filter: blur(15px);
+      border: 1px solid rgba(0, 0, 0, 0.05);
+    }
+  </style>
+</head>
+<body class="min-h-screen flex items-center justify-center p-6 text-gray-900">
+
+  <main class="w-full max-w-4xl glass rounded-2xl p-8 shadow-xl space-y-10">
+    
+    <!-- Profile Header -->
+    <div class="flex items-center space-x-6">
+      <div class="w-20 h-20 bg-gradient-to-r from-blue-500 to-blue-400 rounded-full flex items-center justify-center text-white font-bold text-3xl">
+        <%= user.username.charAt(0).toUpperCase() %>
+      </div>
+      <div>
+        <h1 class="text-3xl font-bold text-blue-700">Hello, <%= user.username %> 👋</h1>
+        <p class="text-gray-600"><%= user.email %></p>
+      </div>
+    </div>
+
+    <!-- Profile Details -->
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+      <div class="glass p-4 rounded-lg">
+        <p class="text-gray-500 text-sm">Username</p>
+        <p class="text-lg font-semibold"><%= user.username %></p>
+      </div>
+      <div class="glass p-4 rounded-lg">
+        <p class="text-gray-500 text-sm">Email</p>
+        <p class="text-lg font-semibold"><%= user.email %></p>
+      </div>
+    </div>
+
+    <!-- Add Product Form -->
+    <div class="glass p-6 rounded-lg">
+      <h2 class="text-2xl font-bold mb-6 text-blue-600 text-center">Add Product</h2>
+      <form action="/products/add" method="POST" class="space-y-4">
+        <!-- Brand -->
+        <div>
+          <label class="block text-sm font-medium text-gray-700">Brand</label>
+          <input type="text" name="brand" placeholder="product brand"
+            class="w-full p-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-400 focus:outline-none" required>
+        </div>
+
+        <!-- Model -->
+        <div>
+          <label class="block text-sm font-medium text-gray-700">Model</label>
+          <input type="text" name="model" placeholder="model"
+            class="w-full p-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-400 focus:outline-none" required>
+        </div>
+
+        <!-- Size -->
+        <div>
+          <label class="block text-sm font-medium text-gray-700">Size</label>
+          <input type="text" name="size" placeholder="Size"
+            class="w-full p-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-400 focus:outline-none" required>
+        </div>
+
+        <!-- Price -->
+        <div>
+          <label class="block text-sm font-medium text-gray-700">Price</label>
+          <input type="number" name="price" placeholder="5000"
+            class="w-full p-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-400 focus:outline-none" required>
+        </div>
+
+        <!-- Stock -->
+        <div>
+          <label class="block text-sm font-medium text-gray-700">Stock</label>
+          <input type="number" name="stock" placeholder="10"
+            class="w-full p-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-400 focus:outline-none">
+        </div>
+
+        <!-- Submit Button -->
+        <button type="submit"
+          class="w-full bg-blue-600 hover:bg-blue-700 text-white py-2 rounded-lg font-semibold transition">
+          Add Product
+        </button>
+      </form>
+    </div>
+
+    <!-- Button to Products Page -->
+    <div class="text-center">
+      <a href="/products/all" 
+         class="inline-block px-6 py-3 bg-green-600 hover:bg-green-700 text-white rounded-lg font-semibold transition">
+        Manage All Products
+      </a>
+    </div>
+
+  </main>
+
+</body>
+</html>

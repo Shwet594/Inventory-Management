@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Edit Product</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    body {
+      background: linear-gradient(135deg, #f1f5f9 0%, #e2e8f0 100%);
+    }
+    .glass {
+      background: rgba(255, 255, 255, 0.8);
+      backdrop-filter: blur(15px);
+      border: 1px solid rgba(0, 0, 0, 0.05);
+    }
+  </style>
+</head>
+<body class="min-h-screen flex items-center justify-center p-6 text-gray-900">
+
+  <main class="w-full max-w-2xl glass rounded-2xl p-8 shadow-xl space-y-8">
+    <h1 class="text-3xl font-bold text-center text-blue-700">Edit Product</h1>
+
+    <form action="/products/update/<%= product._id %>" method="POST" class="space-y-4">
+      
+      <!-- Brand -->
+      <div>
+        <label class="block text-sm font-medium text-gray-700">Brand</label>
+        <input type="text" name="brand" value="<%= product.brand %>" 
+          class="w-full p-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-400 focus:outline-none" required>
+      </div>
+
+      <!-- Model -->
+      <div>
+        <label class="block text-sm font-medium text-gray-700">Model</label>
+        <input type="text" name="model" value="<%= product.model %>" 
+          class="w-full p-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-400 focus:outline-none" required>
+      </div>
+
+      <!-- Size -->
+      <div>
+        <label class="block text-sm font-medium text-gray-700">Size</label>
+        <input type="text" name="size" value="<%= product.size %>" 
+          class="w-full p-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-400 focus:outline-none" required>
+      </div>
+
+      <!-- Price -->
+      <div>
+        <label class="block text-sm font-medium text-gray-700">Price</label>
+        <input type="number" name="price" value="<%= product.price %>" 
+          class="w-full p-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-400 focus:outline-none" required>
+      </div>
+
+      <!-- Stock -->
+      <div>
+        <label class="block text-sm font-medium text-gray-700">Stock</label>
+        <input type="number" name="stock" value="<%= product.stock %>" 
+          class="w-full p-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-400 focus:outline-none">
+      </div>
+
+      <!-- Buttons -->
+      <div class="flex justify-between">
+        <a href="/products/all" 
+           class="px-6 py-2 bg-gray-500 hover:bg-gray-600 text-white rounded-lg font-semibold transition">
+          Cancel
+        </a>
+        <button type="submit" 
+          class="px-6 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg font-semibold transition">
+          Save Changes
+        </button>
+      </div>
+
+    </form>
+  </main>
+
+</body>
+</html>
