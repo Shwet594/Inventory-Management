@@ -15,8 +15,11 @@ app.set("view engine", "ejs");
 app.set("views", "./views"); // optional if you keep views folder in root
 
 app.get("/",(req,res)=>{
-    res.render("index");
+   return res.render("index", {registerErrors:[],oldRegister:{} });
 });
+app.get("/login",(req,res)=>{
+    return res.render("login", {loginErrors:[],oldLogin:{} });
+})
 app.use("/auth",authRoutes);
 app.use("/users",userRoutes);
 app.use("/products",productRoutes);

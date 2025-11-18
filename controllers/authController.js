@@ -1,51 +1,71 @@
 import jwt from "jsonwebtoken"
 import bcrypt from "bcrypt"
 import { userModel } from "../models/userModel.js";
-export const register=async(req,res)=>{
-    let {username,password,email}=req.body;
-    let hash = await bcrypt.hash(password,10);
-    let user = await  userModel.create({
-        username,
-        password:hash,
-        email
-    });
-    res.send(user);
-}
+export const register = async (req, res) => {
+  try {
+    const { username, email, password } = req.body;
+
+    // Get validation errors from express-validator
+    const { errors } = req;
+
+    if (errors) {
+      return res.render("index", {
+        registerErrors: errors,
+        oldRegister: { username, email }
+      });
+    }
+
+    let hash = await bcrypt.hash(password, 10);
+    await userModel.create({ username, password: hash, email });
+
+    res.redirect("/login");
+  } catch (err) {
+    console.log(err);
+    res.redirect("/");
+  }
+};
+
 export const login = async (req, res) => {
   try {
     const { email, password } = req.body;
+    const { errors } = req;
+    // Show validation errors
+    if (errors) {
+      return res.render("login", {
+        loginErrors: errors,
+        oldLogin: { email }
+      });
+    }
 
-    // 1. Find user
     const user = await userModel.findOne({ email });
     if (!user) {
-      return res.status(404).json({ message: "No registered user" });
+      return res.render("login", {
+        loginErrors: [{ msg: "No registered user" }],
+        registerErrors: null,
+        oldLogin: { email }
+      });
     }
 
-    // 2. Compare password
     const check = await bcrypt.compare(password, user.password);
     if (!check) {
-      return res.status(400).json({ message: "Invalid password" });
+      return res.render("login", {
+        loginErrors: [{ msg: "Invalid password" }],
+        registerErrors: null,
+        oldLogin: { email }
+      });
     }
 
-    // 3. Generate JWT
-    const token = jwt.sign({ id: user._id }, process.env.JWT_KEY, {
-      expiresIn: "1h",
-    });
+    const token = jwt.sign({ id: user._id }, process.env.JWT_KEY, { expiresIn: "1h" });
 
-    // 4. Set cookie
-    res.cookie("token", token, {
-      httpOnly: true,
-      secure: process.env.NODE_ENV === "production",
-    });
-
-    // 5. Redirect to profile
-    return res.redirect("/users/profile");
+    res.cookie("token", token, { httpOnly: true });
+    res.redirect("/users/profile");
 
   } catch (err) {
     console.error(err);
-    return res.status(500).json({ message: "Server error" });
+    res.redirect("/");
   }
 };
+
 
 
 export const profile = async (req, res) => {
